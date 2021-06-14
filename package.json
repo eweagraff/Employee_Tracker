@@ -1,0 +1,24 @@
+{
+  "name": "employee_tracker",
+  "version": "1.0.0",
+  "description": "To be able to track/add employees using mysql database",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eweagraff/Employee_Tracker.git"
+  },
+  "author": "Emily Weagraff",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/eweagraff/Employee_Tracker/issues"
+  },
+  "homepage": "https://github.com/eweagraff/Employee_Tracker#readme",
+  "dependencies": {
+    "console.table": "^0.10.0",
+    "inquirer": "^8.1.0",
+    "mysql": "^2.18.1"
+  }
+}
