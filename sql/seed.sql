@@ -20,5 +20,5 @@ VALUES
 ("Emily", "Weagraff", 1, 2),
 ("Michael", "Lepiere", 2, 4),
 ("Barbara", "Collins", 2, 4),
-("Luis", "Angeles", 3, 2),
+("Luis", "Angeles", 3, 2);
 
