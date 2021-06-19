@@ -113,13 +113,13 @@ function add_employee() {
         type: "list",
         name: "roleId",
         message: "What is the role id of the new employee?",
-        choices: [], //add choices for the role id's
+        choices: [1, 2, 3, 4, 5], //add choices for the role id's
       },
       {
         type: "list",
         name: "managerId",
         message: "What is the manager id of the new employee?",
-        choices: [], //add choices that = arrays from the select statements from the database SELECT * FROM employee
+        choices: [1, 2], //add choices that = arrays from the select statements from the database SELECT * FROM employee
       },
     ])
     .then((answer) => {
