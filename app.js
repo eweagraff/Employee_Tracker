@@ -160,19 +160,32 @@ function add_role() {
     .prompt([
       {
         type: "input",
-        name: "addRole",
-        message: "Which role would you like to add?",
+        name: "title",
+        message: "What is the title of the new role?",
+      },
+      {
+        type: "input",
+        name: "salary",
+        message: "What is the salary of that role?",
+      },
+      {
+        type: "input",
+        name: "deptId",
+        message: "What is the department id for that role?",
       },
     ])
     .then((answer) => {
       connection.query(
-        "INSERT INTO role SET role",
+        "INSERT INTO role SET ?",
         {
-          role_id: answer.addRole,
+          title: answer.title,
+          salary: answer.salary,
+          department_id: answer.deptId,
         },
         (err) => {
           if (err) throw err;
           console.log("New Role Successfully Added!");
+          start();
         }
       );
     });
@@ -189,9 +202,9 @@ function update_employee_roles() {
     ])
     .then((answer) => {
       connection.query(
-        "UPDATE employee SET role = ? WHERE id =?",
+        "UPDATE employee SET role = ?",
         {
-          role_id: answer.updateRole,
+          addRole: answer.updateRole,
         },
         (err) => {
           if (err) throw err;
