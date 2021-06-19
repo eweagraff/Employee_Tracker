@@ -16,7 +16,7 @@ const connection = mysql.createConnection({
 
 //create function to start inquirer application
 
-const start = () => {
+function start() {
   inquirer
     .prompt({
       type: "list",
@@ -59,14 +59,19 @@ const start = () => {
         connection.end();
       }
     });
-};
+}
 
-//create function to view employees
+//create function to view employees- JOIN dept role employee and employees
 function view_employees() {
-  connection.query("SELECT * FROM employee", function (err, data) {
-    console.table(data);
-    start();
-  });
+  connection.query(
+    `SELECT e.id,e.first_name,e.last_name,deptName,title,salary, CONCAT(m.first_name, " ",  m.last_name)AS manager FROM department RIGHT JOIN role ON department.id = role.department_id 
+RIGHT JOIN employee e ON e.role_id = role.id
+LEFT JOIN employee m ON m.id = e.manager_id`,
+    function (err, data) {
+      console.table(data);
+      start();
+    }
+  );
 }
 
 //create function to view departments
@@ -77,12 +82,15 @@ function view_departments() {
   });
 }
 
-//create a function to view all roles
+//create a function to view all roles- JOIN dept and roles
 function view_roles() {
-  connection.query("SELECT * FROM role", function (err, data) {
-    console.table(data);
-    start();
-  });
+  connection.query(
+    "SELECT role.id,deptName,title,salary FROM department RIGHT JOIN role ON department.id = role.department_id",
+    function (err, data) {
+      console.table(data);
+      start();
+    }
+  );
 }
 
 // create a function to add employee
@@ -102,14 +110,16 @@ function add_employee() {
           "What is the last name of the employee you would like to add? ",
       },
       {
-        type: "input",
+        type: "list",
         name: "roleId",
         message: "What is the role id of the new employee?",
+        choices: [], //add choices for the role id's
       },
       {
-        type: "input",
+        type: "list",
         name: "managerId",
         message: "What is the manager id of the new employee?",
+        choices: [], //add choices that = arrays from the select statements from the database SELECT * FROM employee
       },
     ])
     .then((answer) => {
@@ -156,6 +166,7 @@ function add_department() {
 }
 //create a function to add roles
 function add_role() {
+  //connection.query
   inquirer
     .prompt([
       {
@@ -169,9 +180,10 @@ function add_role() {
         message: "What is the salary of that role?",
       },
       {
-        type: "input",
+        type: "list",
         name: "deptId",
         message: "What is the department id for that role?",
+        choices: [], //use select statement
       },
     ])
     .then((answer) => {
@@ -190,7 +202,7 @@ function add_role() {
       );
     });
 }
-//create a function to update employee roles-
+//create a function to update employee roles-// need a list of employees and list of roles
 function update_employee_roles() {
   inquirer
     .prompt([
@@ -202,7 +214,7 @@ function update_employee_roles() {
     ])
     .then((answer) => {
       connection.query(
-        "UPDATE employee SET role = ?",
+        "UPDATE employee SET role_id = ? WHERE = ",
         {
           addRole: answer.updateRole,
         },
