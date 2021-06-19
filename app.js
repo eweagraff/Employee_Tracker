@@ -104,17 +104,17 @@ function add_employee() {
       {
         type: "input",
         name: "roleId",
-        message: "What is the role id of the new employee",
+        message: "What is the role id of the new employee?",
       },
       {
         type: "input",
         name: "managerId",
-        message: "What is the manager id of the new employee",
+        message: "What is the manager id of the new employee?",
       },
     ])
     .then((answer) => {
       connection.query(
-        "INSERT INTO employee SET",
+        "INSERT INTO employee SET ?",
         {
           first_name: answer.firstName,
           last_name: answer.lastName,
@@ -131,8 +131,75 @@ function add_employee() {
 }
 
 //create a function to add departments
+function add_department() {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "addDepartment",
+        message: "Which department would you like to add?",
+      },
+    ])
+    .then((answer) => {
+      connection.query(
+        "INSERT INTO department SET ? ",
+        {
+          deptName: answer.addDepartment,
+        },
+        (err) => {
+          if (err) throw err;
+          console.log("New Department Successfully Added!");
+          start();
+        }
+      );
+    });
+}
 //create a function to add roles
+function add_role() {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "addRole",
+        message: "Which role would you like to add?",
+      },
+    ])
+    .then((answer) => {
+      connection.query(
+        "INSERT INTO role SET role",
+        {
+          role_id: answer.addRole,
+        },
+        (err) => {
+          if (err) throw err;
+          console.log("New Role Successfully Added!");
+        }
+      );
+    });
+}
 //create a function to update employee roles-
+function update_employee_roles() {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "updateRole",
+        message: "Which employee's role would you like to update?",
+      },
+    ])
+    .then((answer) => {
+      connection.query(
+        "UPDATE employee SET role = ? WHERE id =?",
+        {
+          role_id: answer.updateRole,
+        },
+        (err) => {
+          if (err) throw err;
+          console.log("New Role Successfully Added!");
+        }
+      );
+    });
+}
 
 //connect to mysql server and database
 connection.connect((err) => {
