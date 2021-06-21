@@ -183,7 +183,7 @@ function add_role() {
         type: "list",
         name: "deptId",
         message: "What is the department id for that role?",
-        choices: [], //use select statement
+        choices: [1, 2, 3, 4, 5, 6, 7], //use select statement
       },
     ])
     .then((answer) => {
@@ -207,16 +207,32 @@ function update_employee_roles() {
   inquirer
     .prompt([
       {
-        type: "input",
-        name: "updateRole",
-        message: "Which employee's role would you like to update?",
+        type: "list",
+        name: "employee",
+        message: "What is the name of the employee?",
+        choices: [
+          "Barbara Collins",
+          "Emily Weagraff",
+          "Michael Lepiere",
+          "Emma Stone",
+          "Luis Angeles",
+        ],
+      },
+      {
+        type: "list",
+        name: "role",
+        message: "what is the new role id for that employee?",
+        choices: [1, 2, 3, 4, 5],
       },
     ])
     .then((answer) => {
       connection.query(
-        "UPDATE employee SET role_id = ? WHERE = ",
+        `SELECT e.id,e.first_name,e.last_name,deptName,title,salary, CONCAT(m.first_name, " ",  m.last_name)AS manager FROM department RIGHT JOIN role ON department.id = role.department_id 
+RIGHT JOIN employee e ON e.role_id = role.id
+LEFT JOIN employee m ON m.id = e.manager_id`,
         {
-          addRole: answer.updateRole,
+          first_name: answer.employee,
+          role_id: answer.role,
         },
         (err) => {
           if (err) throw err;
