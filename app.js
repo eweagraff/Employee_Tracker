@@ -229,6 +229,7 @@ function update_employee_role() {
         (err) => {
           if (err) throw err;
           console.log("New Role Successfully Added!");
+          start();
         }
       );
     });
@@ -240,6 +241,15 @@ connection.connect((err) => {
     throw err;
   }
   console.log("connected as id" + connection.threadId);
+  employee_tracker();
   // run the start function after the connection is made
-  start();
 });
+function employee_tracker() {
+  const figlet = require("figlet");
+
+  figlet("Employee Tracker", function (err, data) {
+    console.log(data);
+
+    start();
+  });
+}
