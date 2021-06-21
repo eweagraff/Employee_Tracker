@@ -52,8 +52,8 @@ function start() {
       if (answer.options === "Add a Role") {
         add_role();
       }
-      if (answer.options === "Update employee roles") {
-        update_employee_roles();
+      if (answer.options === "Update Employee Role") {
+        update_employee_role();
       }
       if (answer.options === "Exit") {
         connection.end();
@@ -203,20 +203,14 @@ function add_role() {
     });
 }
 //create a function to update employee roles-// need a list of employees and list of roles
-function update_employee_roles() {
+function update_employee_role() {
   inquirer
     .prompt([
       {
         type: "list",
         name: "employee",
         message: "What is the name of the employee?",
-        choices: [
-          "Barbara Collins",
-          "Emily Weagraff",
-          "Michael Lepiere",
-          "Emma Stone",
-          "Luis Angeles",
-        ],
+        choices: ["Barbara ", "Emily", "Michael", "Emma", "Luis"],
       },
       {
         type: "list",
@@ -227,9 +221,7 @@ function update_employee_roles() {
     ])
     .then((answer) => {
       connection.query(
-        `SELECT e.id,e.first_name,e.last_name,deptName,title,salary, CONCAT(m.first_name, " ",  m.last_name)AS manager FROM department RIGHT JOIN role ON department.id = role.department_id 
-RIGHT JOIN employee e ON e.role_id = role.id
-LEFT JOIN employee m ON m.id = e.manager_id`,
+        "UPDATE employee SET role_id = ?",
         {
           first_name: answer.employee,
           role_id: answer.role,
